@@ -25,6 +25,10 @@
             {{{yogiBio}}}<br><br>
             <!--Triple brackets will utilize the HTML tags in browser-->
 
+            {{makeLink 'Yogi Berra Museum' 'http://adamshaleen.me'}}<br>
+
+            {{changeColor 'Make my text red' color='red'}}<br>
+
         </script>
 
         <script type="text/javascript">
@@ -32,6 +36,28 @@
             var quoteInfo = document.getElementById("quote-template").innerHTML;
 
             var template = Handlebars.compile(quoteInfo);
+
+            // define helpers before you call the template
+            Handlebars.registerHelper('makeLink', function(text, url) {
+                text = Handlebars.Utils.escapeExpression(text);
+                url = Handlebars.Utils.escapeExpression(url);
+                var theLink = '<a href="' + url + '">' + text + '</a>';
+                return new Handlebars.SafeString(theLink);
+            });
+
+            Handlebars.registerHelper('changeColor', function(text, options) {
+                text = Handlebars.Utils.escapeExpression(text);
+
+                if(options.hash.color === 'red') {
+                    return new Handlebars.SafeString('<span class="redText">' + text + '</span>');
+                }
+                else if(options.hash.color === 'blue') {
+                    return new Handlebars.SafeString('<span class="blueText">' + text + '</span>');
+                }
+                else {
+                    return new Handlebars.SafeString('<span class="greenText">' + text + '</span>');
+                }
+            });
 
             var quoteData = template({
                 name: 'Yogi Berra',
